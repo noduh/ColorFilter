@@ -24,15 +24,15 @@ private:
         std::ostringstream string_stream;
         string_stream << file.rdbuf(); // streams it into a string stream
         return string_stream.str();    // turns the stream into a string
-    };
+    }
 
     void skipWhitespace(int &string_position)
     { // updates string position to end of whitespace
         while (isspace(file_contents[string_position]))
         {
             string_position++;
-        };
-    };
+        }
+    }
 
     int getDecimalFromString(int &string_position)
     { // returns the decimal, or 0 if it fails. keeps string position updated
@@ -41,7 +41,7 @@ private:
         while (!isspace(file_contents[string_position]))
         {
             string_position++;
-        };
+        }
         try
         {
             return std::stoi(file_contents.substr(starting_position, string_position));
@@ -77,7 +77,7 @@ public:
         if (maxval < 0 || maxval >= 65536)
         {
             maxval = 0;
-        };
+        }
 
         string_position++; // next char should be whitespace
 
@@ -90,11 +90,32 @@ public:
         green = bytes | std::views::drop(1) | std::views::stride(3);
         // blue
         blue = bytes | std::views::drop(2) | std::views::stride(3);
-    };
+    }
+
+    std::string getMagicNumber()
+    {
+        return magic_number;
+    }
+
+    int getWidth()
+    {
+        return width;
+    }
+
+    int getHight()
+    {
+        return hight;
+    }
 };
 
 int main()
 {
-    std::println("hey there");
+    std::cout << "Please input the file location and press [ENTER]:\n";
+    std::string file_location;
+    std::getline(std::cin, file_location);
+    ImageData image = ImageData(file_location);
+    std::cout << "Magic Number: " << image.getMagicNumber() << std::endl;
+    std::cout << "Width: " << image.getWidth() << std::endl;
+    std::cout << "Hight: " << image.getHight() << std::endl;
     return 0;
 }
